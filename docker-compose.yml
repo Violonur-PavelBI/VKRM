@@ -1,0 +1,36 @@
+services:
+  base:
+    container_name: ofa_base
+    image: ofa:v1
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile
+  base_dev:
+    container_name: ofa_base_dev
+    image: ofa_dev:v1
+    tty: true
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile_dev
+    ports:
+      - "22"
+    env_file: Docker/env.env
+    volumes:
+      - /storage_labs/lab/UserName/container_ssh:/home/user/stuff/external_ssh
+      - /storage/db:/workspace/stor_db
+      - /storage_61/db:/workspace/stor61_db
+      - /storage_labs/db:/workspace/labs_db
+      - /storage_labs/lab/UserName/db:/workspace/own_db
+  dev:
+    extends:
+      service: base_dev
+    container_name: ofa_dev_
+    volumes:
+      - /storage_labs/lab/UserName/proj/paradigma/ofa_test/ofa_fork:/workspace/proj
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: "nvidia"
+              device_ids: [ "" ]
+              capabilities: [ gpu ]

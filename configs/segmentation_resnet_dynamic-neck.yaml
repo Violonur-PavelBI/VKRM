@@ -1,0 +1,198 @@
+common:
+  exp:
+    use_amp: false
+    debug: false
+    dont_use_env: true
+    exp_prefix: DYNAMIC-FPN
+    exp_root_path: ./output/segmentation/resnet/camvid
+    resume: false
+    seed: 42
+    deterministic: false
+    validation_frequency: 1
+  dataset:
+    type: Segmentation
+    name: camvid
+    n_classes: 12
+    background: 'no'
+    classes_idx: null
+    classes_unused: null
+    dataset_path: /workspace/labs_db/paradigma/CamVid
+    ann_file: data.csv
+    valid_size: 0.2
+    train_batch_size: 4
+    test_batch_size: 4
+    image_size: [384, 480]
+    n_worker: 2
+    pipeline_crop_train: 1
+    use_randalbu: false
+  supernet_config:
+    type: CompositeSuperNet
+    backbone:
+      type: OFAResNet
+      ks_list:
+      - 3
+      depth_list:
+      - 0
+      - 1
+      - 2
+      expand_ratio_list:
+      - 0.2
+      - 0.25
+      - 0.35
+      width_mult_list:
+      - 0.65
+      - 0.8
+      - 1.0
+      bn_eps: 1.0e-05
+      bn_momentum: 0.1
+    neck:
+      type: DynamicFPN
+      levels: 5
+      mid_channels: 128
+      convs:
+      - [[96, 3]]
+      - [[136, 3]]
+      - [[176, 3]]
+      - [[216, 3]]
+      - [[256, 3]]
+      merge_policy: sum
+      act_func: relu
+      use_bias: false
+      upsample_mode: nearest
+    head:
+      type: SegmentationHead
+      levels: 5
+      in_channels:
+      - 96
+      - 136
+      - 176
+      - 216
+      - 256
+      mid_channels: 128
+      n_classes: 12
+      use_bias: false
+      upsample_mode: nearest
+      upsample_factor: 2
+      final_conv_kernel: 3
+      merge_policy: sum
+  strategy:
+    type: SegmentationStrategy
+    loss: BCELoss
+    distil_loss: none
+    background_loss: false
+    dice_weight: 0
+    lovasz_weight: 0
+    ce_weight: 0
+    bce_weight: 0
+    mse_weight: 0
+  learn_config:
+    opt_type: adam
+    momentum: 0.9
+    nesterov: false
+    init_lr: 0.005
+    weight_decay: 3.0e-05
+    no_decay_keys: bn#bias
+    dynamic_batch_size: 1
+    n_epochs: 1
+    warmup_epochs: 0
+    lr_schedule_type: cosine
+    warmup_lr: 0
+    kd_ratio: 0
+    kd_type: ce
+    betas:
+    - 0.8
+    - 0.9
+    grad_clip_value: 2
+stages:
+  ps_k:
+    stage_type: SupernetLearn
+    supernet_config:
+      backbone:
+        depth_list:
+        - 2
+        expand_ratio_list:
+        - 0.35
+    learn_config:
+      task: kernel
+      kd_ratio: 0
+      dynamic_batch_size: 1
+      n_epochs: 40
+      warmup_epochs: 10
+  ps_d_1:
+    stage_type: SupernetLearn
+    supernet_config:
+      backbone:
+        depth_list:
+        - 1
+        - 2
+        expand_ratio_list:
+        - 0.35
+    learn_config:
+      task: depth
+      dynamic_batch_size: 2
+      n_epochs: 20
+      warmup_epochs: 5
+  ps_d_2:
+    stage_type: SupernetLearn
+    supernet_config:
+      backbone:
+        expand_ratio_list:
+        - 0.35
+    learn_config:
+      task: depth
+      dynamic_batch_size: 2
+      n_epochs: 40
+      warmup_epochs: 10
+  ps_e_1:
+    stage_type: SupernetLearn
+    supernet_config:
+      backbone:
+        expand_ratio_list:
+        - 0.25
+        - 0.35
+    learn_config:
+      task: expand
+      dynamic_batch_size: 4
+      n_epochs: 20
+      warmup_epochs: 5
+  ps_e_2:
+    stage_type: SupernetLearn
+    learn_config:
+      task: expand
+      dynamic_batch_size: 4
+      n_epochs: 40
+      warmup_epochs: 10
+  pred_dataset:
+    stage_type: ArchAccDatasetBuild
+    build_acc_dataset:
+      n_subnets: 1000
+      det_grid: true
+  acc_pred_learn:
+    stage_type: PredictorLearn
+    pred_learn:
+      metric: accuracy
+      model: Perceptron
+      n_epochs: 100
+      init_lr: 0.003
+  evolution:
+    stage_type: EvolutionOnSupernet
+    evolution:
+      evolution_type: simple_with_latency_threshold
+      generations: 30
+      population_size: 200
+      netx_gen_ratio: 0.25
+      optimize_val: accuracy
+      constraint_type: accuracy
+      accuracy_constraint: 0.08
+      efficiency_constraint: 0
+      flops_constraint: 200000
+      latency_constraint: 1000
+execute:
+- ps_k
+- ps_d_1
+- ps_d_2
+- ps_e_1
+- ps_e_2
+- pred_dataset
+- acc_pred_learn
+- evolution

@@ -1,0 +1,18 @@
+torch==1.13.1
+torchvision==0.14.1
+opencv-contrib-python-headless==4.5.5.64
+albumentations --no-binary qudida,albumentations
+thop
+torchtyping
+tensorboardx
+numpy
+pandas
+tqdm
+segmentation-models-pytorch
+pycocotools
+matplotlib
+torchmetrics
+pydantic==1.10.8
+clearml
+loguru
+catboost

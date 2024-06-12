@@ -1,0 +1,2 @@
+DEPTH_NAME_SEP = "_·_"
+DUBLICATE_SEP = "·"
