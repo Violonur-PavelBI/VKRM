@@ -1,0 +1,40 @@
+- stage: ps_k
+  stage_type: SupernetLearn
+  start: '2024-05-02 12:40:17.942155'
+  end: '2024-05-02 13:22:00.868770'
+  time_consume: '0:41:42.926615'
+- stage: ps_d_1
+  stage_type: SupernetLearn
+  start: '2024-05-02 13:22:00.872890'
+  end: '2024-05-02 13:54:00.373051'
+  time_consume: '0:31:59.500161'
+- stage: ps_d_2
+  stage_type: SupernetLearn
+  start: '2024-05-02 13:54:00.377016'
+  end: '2024-05-02 14:49:10.605963'
+  time_consume: '0:55:10.228947'
+- stage: ps_e_1
+  stage_type: SupernetLearn
+  start: '2024-05-02 14:49:10.610275'
+  end: '2024-05-02 15:36:10.803903'
+  time_consume: '0:47:00.193628'
+- stage: ps_e_2
+  stage_type: SupernetLearn
+  start: '2024-05-02 15:36:10.808189'
+  end: '2024-05-02 17:44:41.580664'
+  time_consume: '2:08:30.772475'
+- stage: pred_dataset
+  stage_type: ArchAccDatasetBuild
+  start: '2024-05-02 17:44:41.585012'
+  end: '2024-05-02 19:36:11.040547'
+  time_consume: '1:51:29.455535'
+- stage: acc_pred_learn
+  stage_type: PredictorLearn
+  start: '2024-05-02 19:36:11.045582'
+  end: '2024-05-02 19:36:41.498901'
+  time_consume: '0:00:30.453319'
+- stage: evolution
+  stage_type: EvolutionOnSupernet
+  start: '2024-05-02 19:36:41.503254'
+  end: '2024-05-02 19:37:55.477586'
+  time_consume: '0:01:13.974332'
