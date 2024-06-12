@@ -1,0 +1,7 @@
+Loaded init from ./output/segmentation/mbnet/camvid/NAS-FPN/02.05.24_12.40.17.905510/supernet_weights/model_best.pt
+------------------------------Supporting Elastic Expand: [6.0] -> [6.0, 4.0]------------------------------
+Valid [0/20] loss=0.036, IoU=0.854, PixelwiseAcc=0.919, Loss=0.036, Train loss 0.031	, IoU=0.866, PixelwiseAcc=0.927, Loss=0.031 K3-D2-E4.0-W0 K1-D1-W0.75 (0.836), K3-D2-E4.0-W0 K5-D3-W1.0 (0.844), K5-D4-E6.0-W0 K1-D1-W0.75 (0.867), K5-D4-E6.0-W0 K5-D3-W1.0 (0.868),
+Valid [5/20] loss=0.037, IoU=0.851, PixelwiseAcc=0.918, Loss=0.037, Train loss 0.030	, IoU=0.870, PixelwiseAcc=0.930, Loss=0.030 K3-D2-E4.0-W0 K1-D1-W0.75 (0.836), K3-D2-E4.0-W0 K5-D3-W1.0 (0.836), K5-D4-E6.0-W0 K1-D1-W0.75 (0.868), K5-D4-E6.0-W0 K5-D3-W1.0 (0.865),
+Valid [10/20] loss=0.036, IoU=0.860, PixelwiseAcc=0.923, Loss=0.036, Train loss 0.027	, IoU=0.882, PixelwiseAcc=0.937, Loss=0.027 K3-D2-E4.0-W0 K1-D1-W0.75 (0.849), K3-D2-E4.0-W0 K5-D3-W1.0 (0.851), K5-D4-E6.0-W0 K1-D1-W0.75 (0.870), K5-D4-E6.0-W0 K5-D3-W1.0 (0.870),
+Valid [15/20] loss=0.036, IoU=0.858, PixelwiseAcc=0.922, Loss=0.036, Train loss 0.024	, IoU=0.892, PixelwiseAcc=0.942, Loss=0.024 K3-D2-E4.0-W0 K1-D1-W0.75 (0.846), K3-D2-E4.0-W0 K5-D3-W1.0 (0.849), K5-D4-E6.0-W0 K1-D1-W0.75 (0.870), K5-D4-E6.0-W0 K5-D3-W1.0 (0.868),
+Valid [20/20] loss=0.036, IoU=0.859, PixelwiseAcc=0.923, Loss=0.036, Train loss 0.023	, IoU=0.895, PixelwiseAcc=0.944, Loss=0.023 K3-D2-E4.0-W0 K1-D1-W0.75 (0.846), K3-D2-E4.0-W0 K5-D3-W1.0 (0.851), K5-D4-E6.0-W0 K1-D1-W0.75 (0.870), K5-D4-E6.0-W0 K5-D3-W1.0 (0.869),
