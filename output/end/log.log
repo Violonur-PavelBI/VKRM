@@ -1,0 +1,126 @@
+2024-05-02 12:40:17.918 | INFO     | __main__:main:159 - 28500
+2024-05-02 12:40:17.918 | INFO     | __main__:main:160 - 2
+2024-05-02 12:40:17.919 | INFO     | __main__:main:161 - localhost
+2024-05-02 12:40:17.919 | INFO     | __main__:main:162 - 0
+2024-05-02 19:36:50.339 | WARNING  | ofa.nas.evolution.utils:evolution_preprocess:103 - Latency predictor cannot be loaded, got [Errno 2] No such file or directory: 'predictors/nvidia/nas-fpn/segmentation_latency.pt'.
+2024-05-02 19:36:50.340 | WARNING  | ofa.nas.evolution.utils:evolution_preprocess:108 - Evolution params drop to accuracy
+2024-05-02 19:36:50.340 | WARNING  | ofa.nas.evolution.utils:evolution_preprocess:103 - Efficiency predictor cannot be loaded, got [Errno 2] No such file or directory: './output/segmentation/mbnet/camvid/NAS-FPN/02.05.24_12.40.17.905510/efficiency_predictor.pt'.
+2024-05-02 19:36:50.350 | INFO     | ofa.nas.evolution.search:generate_population:156 - Generate random population...
+2024-05-02 19:36:51.014 | INFO     | ofa.nas.evolution.search:run_evolution_search:246 - Start evolution
+2024-05-02 19:36:58.444 | INFO     | evolution:worker:54 - Run search in pred_dataset.
+2024-05-02 19:36:58.456 | INFO     | evolution:worker:66 - Sync search result
+2024-05-02 19:36:58.593 | INFO     | evolution:worker:80 - Init supernet for validation
+2024-05-02 19:36:59.226 | INFO     | ofa.utils.common_tools:write_log:554 - Loaded init from ./output/segmentation/mbnet/camvid/NAS-FPN/02.05.24_12.40.17.905510/supernet_weights/model_best.pt
+2024-05-02 19:36:59.237 | INFO     | dltools.utils.utils:__init__:25 - Use DistributedSubsetSampler: 300, 600
+2024-05-02 19:37:28.655 | WARNING  | ofa.nas.evolution.utils:get_predicted_values:236 - Cannot predict latency, value set to -1. Got 'NoneType' object is not callable.
+2024-05-02 19:37:28.656 | WARNING  | ofa.nas.evolution.utils:get_predicted_values:236 - Cannot predict efficiency, value set to -1. Got 'NoneType' object is not callable.
+2024-05-02 19:37:28.657 | INFO     | ofa.nas.evolution.utils:print_summary:284 - 
+Found best architecture on evolution optimising accuracy under
+  accuracy >= 0.080000
+constraints.
+It achieves
+  1.1669 predicted accuracy
+  -1.0000 predicted latency
+  -1.0000 predicted efficiency
+and
+  0.8673 IoU (main metric)
+  0.9282 PixelwiseAcc.
+2024-05-02 19:37:37.415 | WARNING  | ofa.nas.evolution.utils:get_predicted_values:236 - Cannot predict latency, value set to -1. Got 'NoneType' object is not callable.
+2024-05-02 19:37:37.416 | WARNING  | ofa.nas.evolution.utils:get_predicted_values:236 - Cannot predict efficiency, value set to -1. Got 'NoneType' object is not callable.
+2024-05-02 19:37:37.416 | INFO     | ofa.nas.evolution.utils:print_summary:284 - 
+Found best architecture on accdict optimising accuracy under
+  accuracy >= 0.080000
+constraints.
+It achieves
+  0.8723 predicted accuracy
+  -1.0000 predicted latency
+  -1.0000 predicted efficiency
+and
+  0.8792 IoU (main metric)
+  0.9350 PixelwiseAcc.
+2024-05-02 19:37:37.417 | INFO     | ofa.nas.evolution.utils:choose_best:380 - pred_dataset net selected
+2024-05-02 19:37:37.418 | INFO     | evolution:worker:116 - Network chooset from accdict
+2024-05-02 19:37:51.295 | INFO     | ofa.nas.evolution.utils:print_summary:284 - 
+Found best architecture on test optimising accuracy under
+  accuracy >= 0.080000
+constraints.
+It achieves
+  0.8723 predicted accuracy
+  -1.0000 predicted latency
+  -1.0000 predicted efficiency
+and
+  0.8792 IoU (main metric)
+  0.9350 PixelwiseAcc.
+2024-05-02 19:38:02.545 | ERROR    | __main__:main:199 - finetune
+Traceback (most recent call last):
+  File "main.py", line 182, in main
+    mp.spawn(
+  File "/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/spawn.py", line 240, in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method='spawn')
+  File "/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/spawn.py", line 198, in start_processes
+    while not context.join():
+  File "/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/spawn.py", line 160, in join
+    raise ProcessRaisedException(msg, error_index, failed_process.pid)
+torch.multiprocessing.spawn.ProcessRaisedException: 
+
+-- Process 0 terminated with the following error:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/spawn.py", line 69, in _wrap
+    fn(i, *args)
+  File "/workspace/prj/paradigma_ofa/exp_ofa/main.py", line 62, in worker_runner
+    worker_func(run_manager)
+  File "/workspace/prj/paradigma_ofa/exp_ofa/finetune.py", line 283, in worker
+    model = AttrPassDDP(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/parallel/distributed.py", line 550, in __init__
+    if not any((p.requires_grad for p in module.parameters())):
+AttributeError: 'NoneType' object has no attribute 'parameters'
+
+
+Traceback (most recent call last):
+
+  File "main.py", line 234, in <module>
+    main(args)
+    │    └ Config(common=CommonConfig(exp=ExperimentConfig(use_amp=False, debug=False, dont_use_env=True, exp_prefix='NAS-FPN', exp_root...
+    └ <function main at 0x7f4a29fcc9d0>
+
+> File "main.py", line 182, in main
+    mp.spawn(
+    │  └ <function spawn at 0x7f4bb8953310>
+    └ <module 'torch.multiprocessing' from '/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/__init__.py'>
+
+  File "/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/spawn.py", line 240, in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method='spawn')
+           │               │   │     │       │     └ False
+           │               │   │     │       └ True
+           │               │   │     └ 2
+           │               │   └ (<function worker at 0x7f4a29fcc430>, <ofa.run_manager.run_manager.RunManager object at 0x7f4a29fce400>)
+           │               └ <function worker_runner at 0x7f4a29fcc700>
+           └ <function start_processes at 0x7f4bb8953040>
+
+  File "/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/spawn.py", line 198, in start_processes
+    while not context.join():
+              │       └ <function ProcessContext.join at 0x7f4bb89531f0>
+              └ <torch.multiprocessing.spawn.ProcessContext object at 0x7f4a29f6f2e0>
+
+  File "/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/spawn.py", line 160, in join
+    raise ProcessRaisedException(msg, error_index, failed_process.pid)
+          │                      │    │            │              └ <property object at 0x7f4bb898b720>
+          │                      │    │            └ <SpawnProcess name='SpawnProcess-17' pid=207662 parent=901 stopped exitcode=1>
+          │                      │    └ 0
+          │                      └ '\n\n-- Process 0 terminated with the following error:\nTraceback (most recent call last):\n  File "/usr/local/lib/python3.8/...
+          └ <class 'torch.multiprocessing.spawn.ProcessRaisedException'>
+
+torch.multiprocessing.spawn.ProcessRaisedException: 
+
+-- Process 0 terminated with the following error:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/torch/multiprocessing/spawn.py", line 69, in _wrap
+    fn(i, *args)
+  File "/workspace/prj/paradigma_ofa/exp_ofa/main.py", line 62, in worker_runner
+    worker_func(run_manager)
+  File "/workspace/prj/paradigma_ofa/exp_ofa/finetune.py", line 283, in worker
+    model = AttrPassDDP(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/parallel/distributed.py", line 550, in __init__
+    if not any((p.requires_grad for p in module.parameters())):
+AttributeError: 'NoneType' object has no attribute 'parameters'
+

@@ -1,0 +1,46 @@
+supernet_last_metrics:
+  IoU/train: 0.8865435719490051
+  PixelwiseAcc/train: 0.9392048716545105
+  Loss/train: 0.02579057589173317
+  IoU/val: 0.862552285194397
+  PixelwiseAcc/val: 0.9251107275485992
+  Loss/val: 0.03554452955722809
+  epoch_time_consume: 127.81405
+  Logging time: 2024-05-02 17:02:26.023315
+pred_dataset:
+  mean: 0.8705765128135681
+  std: 0.0043117212284208345
+accuracy_predictor_learn:
+  val_loss: 0.0003373772487975657
+evolution:
+  optimize_val: accuracy
+  acceptable_increase: 0.025944970342030596
+  main_metric: IoU
+  val:
+    evolution:
+      metrics:
+        IoU: 0.8672891855239868
+        PixelwiseAcc: 0.9281808733940125
+      predicted:
+        accuracy: 1.1668654680252075
+        latency: -1
+        efficiency: -1
+    accdict:
+      metrics:
+        IoU: 0.8791822195053101
+        PixelwiseAcc: 0.9349581599235535
+      predicted:
+        accuracy: 0.8722701072692871
+        latency: -1
+        efficiency: -1
+  better_net: accdict
+  constraints:
+    accuracy: 0.08
+  test:
+    metrics:
+      IoU: 0.8791822195053101
+      PixelwiseAcc: 0.9349581599235535
+    predicted:
+      accuracy: 0.8722701072692871
+      latency: -1
+      efficiency: -1
